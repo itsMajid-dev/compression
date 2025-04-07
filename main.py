@@ -7,6 +7,7 @@ class Encoding:
         self.__size = 0 
 
     def convert_to_code(self):
+        """Convert each substring to a number (0 to num.max_code)"""
         output = []  
         tabel = num.partions
         next_code = num.max_code
@@ -24,6 +25,7 @@ class Encoding:
         return output
     
     def compress(self):
+        """Convert any number to a number between 0 and 255 then convert to bytes"""
         codes = self.convert_to_code()
         byte = bytearray()
         for c in codes:
@@ -35,28 +37,18 @@ class Encoding:
         return byte
     
     def save(self , file_name):
+        """Save byte data as a file"""
         byte_data = self.compress()
         with open(file_name , 'wb') as file:
             file.write(byte_data)
 
     def compressing_informations(self):
-        info = {}
+        """Return size and compression percentage information"""
         normal_size = len(self.data)
         compressed_size = self.__size
         compression_percent = (normal_size - compressed_size) / normal_size *100
-        return {'normal_size':f'{normal_size} B',
+        return{'normal_size':f'{normal_size} B',
              'compressed_size':f"{compressed_size} B",
              'compression_percent':f"{compression_percent}%",
         }
-        
-
-            
-
     
-    
-
-f = open(r"C:\Users\lenovo\Desktop\My apps\lzw\file_testing\a.txt" , 'r')
-d = f.read()
-o = Encoding(d)
-v=o.compress()
-print(o.compressing_informations())
