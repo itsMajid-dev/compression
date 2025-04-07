@@ -44,17 +44,19 @@ class Encoding:
         normal_size = len(self.data)
         compressed_size = self.__size
         compression_percent = (normal_size - compressed_size) / normal_size *100
-        info['normal_size':f'{normal_size} B',
+        return {'normal_size':f'{normal_size} B',
              'compressed_size':f"{compressed_size} B",
-             'compression_percent':f"{compression_percent}%"
-             ]
-        return info
+             'compression_percent':f"{compression_percent}%",
+        }
+        
 
             
 
     
     
 
-
-o = Encoding('abcab')
-o.compress()
+f = open(r"C:\Users\lenovo\Desktop\My apps\lzw\file_testing\a.txt" , 'r')
+d = f.read()
+o = Encoding(d)
+v=o.compress()
+print(o.compressing_informations())
