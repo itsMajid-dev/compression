@@ -20,7 +20,8 @@ class Encoding:
                 tabel[substring]=next_code
                 next_code+=1
                 char=c
+        output.append(tabel[substring])
+        return output
 
 
 o = Encoding('abcab')
-o.convert_to_code()
