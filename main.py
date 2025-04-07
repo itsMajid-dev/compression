@@ -1,10 +1,12 @@
-import num 
-
+import num
+import time 
 
 class Encoding:
     def __init__(self , data):
         self.data = data
         self.__size = 0 
+        self.__start_time = time.time()
+        self.__end_time = 0
 
     def convert_to_code(self):
         """Convert each substring to a number (0 to num.max_code)"""
@@ -34,6 +36,7 @@ class Encoding:
             byte.append(hight_byte)
             byte.append(low_byte)
             self.__size = len(byte)
+            self.__end_time=time.time()
         return byte
     
     def save(self , file_name):
@@ -41,6 +44,7 @@ class Encoding:
         byte_data = self.compress()
         with open(file_name , 'wb') as file:
             file.write(byte_data)
+        self.__end_time=time.time()
 
     def compressing_informations(self):
         """Return size and compression percentage information"""
@@ -49,6 +53,7 @@ class Encoding:
         compression_percent = (normal_size - compressed_size) / normal_size *100
         return{'normal_size':f'{normal_size} B',
              'compressed_size':f"{compressed_size} B",
-             'compression_percent':f"{compression_percent}%",
+             'compression_percent':f"{compression_percent} %",
+             'Elapsed_time' : f"{round(self.__end_time - self.__start_time ,3) } s"
         }
-    
+
