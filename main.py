@@ -22,6 +22,20 @@ class Encoding:
                 char=c
         output.append(tabel[substring])
         return output
+    
+    def compress(self):
+        codes = self.convert_to_code()
+        byte = bytearray()
+        for c in codes:
+            hight_byte = (c>>8) & 0xFF
+            low_byte = c & 0xFF
+            byte.append(hight_byte)
+            byte.append(low_byte)
+            self.__size = len(byte)
+        return byte
+    
+    
 
 
 o = Encoding('abcab')
+o.compress()
