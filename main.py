@@ -34,6 +34,13 @@ class Encoding:
             self.__size = len(byte)
         return byte
     
+    def save(self , file_name):
+        byte_data = self.compress()
+        with open(file_name , 'wb') as file:
+            file.write(byte_data)
+            
+
+    
     
 
 
