@@ -38,6 +38,18 @@ class Encoding:
         byte_data = self.compress()
         with open(file_name , 'wb') as file:
             file.write(byte_data)
+
+    def compressing_informations(self):
+        info = {}
+        normal_size = len(self.data)
+        compressed_size = self.__size
+        compression_percent = (normal_size - compressed_size) / normal_size *100
+        info['normal_size':f'{normal_size} B',
+             'compressed_size':f"{compressed_size} B",
+             'compression_percent':f"{compression_percent}%"
+             ]
+        return info
+
             
 
     
