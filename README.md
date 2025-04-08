@@ -32,3 +32,12 @@ x.decompress()
 x.save('a.txt')
 
 ```
+
+
+
+## Compression information:
+
+```python
+x.compressing_informations()
+```
+The original file size, the compressed file size and the compressed percentage return to the dictionary.
