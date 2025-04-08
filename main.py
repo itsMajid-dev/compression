@@ -57,3 +57,18 @@ class Encoding:
              'Elapsed_time' : f"{round(self.__end_time - self.__start_time ,3) } s"
         }
 
+class Decoding:
+    def __init__(self , byte_data:bytes):
+        self.byte_data = byte_data
+    
+    def convert_to_code(self):
+        codes = []
+        for i in range(0 , len(self.byte_data) , 2):
+            hight = self.byte_data[i]
+            low = self.byte_data[i+1]
+            code = (hight<<8)+low
+            codes.append(code)
+        return codes
+    
+    
+        
