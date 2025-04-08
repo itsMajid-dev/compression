@@ -17,7 +17,7 @@ import main
 x= main.Encoding()
 x.load('a.txt')
 x.compress()
-x.save('a')
+x.save('ac')
 
 ```
 
@@ -27,7 +27,7 @@ x.save('a')
 import main 
 
 x= main.Decoding()
-x.load('a')
+x.load('ac')
 x.decompress()
 x.save('a.txt')
 
