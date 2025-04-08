@@ -100,6 +100,13 @@ class Decoding:
             init_str = entry
 
         return ''.join(string)
+    
+    def save(self , file_name):
+        """saveing file. """
+        data = self.decompress()
+        with open(file_name , mode='w') as file:
+            file.write(data)
+            
 
 
 
