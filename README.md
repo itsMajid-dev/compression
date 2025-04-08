@@ -1,0 +1,34 @@
+
+# Project Title
+
+Data compression with Python and the LZW algorithm
+
+
+## About the LZW algorithm : 
+
+[WikiPedia](https://en.wikipedia.org/wiki/Lempel%E2%80%93Ziv%E2%80%93Welch)
+
+
+## Usage/Compression:
+
+```python
+import main 
+
+x= main.Encoding()
+x.load('a.txt')
+x.compress()
+x.save('a')
+
+```
+
+## Usage/Decompress:
+
+```python
+import main 
+
+x= main.Decoding()
+x.load('a')
+x.decompress()
+x.save('a.txt')
+
+```
