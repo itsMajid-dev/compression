@@ -2,11 +2,15 @@ import num
 import time 
 
 class Encoding:
-    def __init__(self , data):
-        self.data = data
+    def __init__(self):
         self.__size = 0 
         self.__start_time = time.time()
         self.__end_time = 0
+    
+    def load(self , file):
+        """Reading the data of the file to be compressed"""
+        with open(file , mode='r') as file:
+            self.data = file.read()
 
     def convert_to_code(self):
         """Convert each substring to a number (0 to num.max_code)"""
@@ -58,9 +62,11 @@ class Encoding:
         }
 
 class Decoding:
-    def __init__(self , byte_data:bytes):
-        self.byte_data = byte_data
-    
+    def load(self , compress_file):
+        """Reading a compressed file"""
+        with open(compress_file , mode='rb') as file:
+            self.byte_data = file.read()
+
     def convert_to_code(self):
         """Convert each byte to a number between zero and 255."""
         codes = []
