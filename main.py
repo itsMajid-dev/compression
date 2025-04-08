@@ -62,6 +62,7 @@ class Decoding:
         self.byte_data = byte_data
     
     def convert_to_code(self):
+        """Convert each byte to a number between zero and 255."""
         codes = []
         for i in range(0 , len(self.byte_data) , 2):
             hight = self.byte_data[i]
@@ -69,6 +70,39 @@ class Decoding:
             code = (hight<<8)+low
             codes.append(code)
         return codes
+    
+    def decompress(self):
+        """Convert each code to its own character from the num.partions dictionary."""
+        string = []
+        reversed_tabel = {v: k for k, v in num.partions.items()}
+        list_of_code = self.convert_to_code()
+        init_code = list_of_code[0]
+        init_str = reversed_tabel[init_code]
+        string.append(init_str)
+        nex_code = max(reversed_tabel.keys()) + 1
+
+        for code in list_of_code[1:]:
+            if code in reversed_tabel:
+                entry = reversed_tabel[code]
+            else:
+                entry = init_str + init_str[0]
+
+            string.append(entry)
+
+            reversed_tabel[nex_code] = init_str + entry[0]
+            nex_code += 1
+            init_str = entry
+
+        return ''.join(string)
+
+
+
+            
+
+
+
+
+
     
     
         
