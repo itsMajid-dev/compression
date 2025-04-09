@@ -7,6 +7,7 @@ class Encoding:
         self.__size = 0 
         self.__start_time = time.time()
         self.__end_time = 0
+        self.excepts = []
     
     def load(self , file):
         """Reading the data of the file to be compressed"""
@@ -15,11 +16,16 @@ class Encoding:
 
     def convert_to_code(self):
         """Convert each substring to a number (0 to num.max_code)"""
-        
+        # ABCABDAB
         output = []  
         tabel = num.partions
         next_code = num.max_code
         char = ''
+        # TABLE      :     {AB : 83 , BC:84 , CA:85 , DAB:86 , DA:87} , 
+        # C          :     A  , B , C , A , B , D  , A  , B
+        # char       :       '' , A , B , C , A , AB , D  , A , AB
+        # substring  :  A  , AB , BC , CA , AB , DAB , DA , AB 
+        #output      : [0 , 1 , 2 , 83 ,3 , 83] => [A,B,C,?,D,?]
         for c in self.data:
             substring = char+c
             if substring in tabel:
@@ -28,7 +34,7 @@ class Encoding:
                 try:
                     output.append(tabel[char])
                 except:
-                    print(f"{char} is not compressing !")
+                    self.excepts.append(char)
                     
                 tabel[substring]=next_code
                 next_code+=1
@@ -102,25 +108,23 @@ class Decoding:
     
     def decompress(self):
         """Convert each code to its own character from the num.partions dictionary."""
-        string = []
-        reversed_tabel = {v: k for k, v in num.partions.items()}
-        list_of_code = self.convert_to_code()
-        init_code = list_of_code[0]
         
-        init_str = reversed_tabel[init_code]
+        string = [] # [A ,B , C , AB , D ]   # ABCABDABAB
+        reversed_tabel = {v: k for k, v in num.partions.items()} # {0:A , 1:B , 2:C , 3:D , 83 : AB , 84:BC ,85:CD }
+        list_of_code = self.convert_to_code() # [0 , 1 , 2 , 83 ,3 , 83]
+        init_code = list_of_code[0] # 0 
+        
+        init_str = reversed_tabel[init_code] # A , B  , C 
         string.append(init_str)
-        nex_code = max(reversed_tabel.keys()) + 1
+        nex_code = max(reversed_tabel.keys()) + 1 # 82 
 
-        for code in list_of_code[1:]:
+        for code in list_of_code[1:]: #[ 1 , 2 , 83 ,3 , 83]
             if code in reversed_tabel:
-                entry = reversed_tabel[code]
-            else:
-                
+                entry = reversed_tabel[code] # B , C ,AB , D 
+            else:  
                 entry = init_str + init_str[0]
-
             string.append(entry)
-
-            reversed_tabel[nex_code] = init_str + entry[0]
+            reversed_tabel[nex_code] = init_str + entry[0] # AB , BC ,CD 
             nex_code += 1
             init_str = entry
 

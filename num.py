@@ -4,7 +4,7 @@ import string
 lower_chr = string.ascii_lowercase
 uper_chr = string.ascii_uppercase
 number_chr = string.digits
-symbol_chr = '\n\t :;.,/\()<>?!&"_-=\'$@#{}+'
+symbol_chr = '\n\t :;.,/\()<>?!&"_-=\'$@#{}+[]'
 
 partions = {}
 
