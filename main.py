@@ -1,6 +1,7 @@
 import num
 import time 
 
+
 class Encoding:
     def __init__(self):
         self.__size = 0 
@@ -14,6 +15,7 @@ class Encoding:
 
     def convert_to_code(self):
         """Convert each substring to a number (0 to num.max_code)"""
+        
         output = []  
         tabel = num.partions
         next_code = num.max_code
@@ -23,26 +25,41 @@ class Encoding:
             if substring in tabel:
                 char=substring
             else:
-                output.append(tabel[char])
+                try:
+                    output.append(tabel[char])
+                except:
+                    
+                    print(f"{char} is not compressing !")
+                    # num.partions[char]=ord(char)
                 tabel[substring]=next_code
                 next_code+=1
                 char=c
         output.append(tabel[substring])
+        
         return output
-    
+        
+        
     def compress(self):
-        """Convert any number to a number between 0 and 255 then convert to bytes"""
+        """Convert any number to a 12 bit number"""
         codes = self.convert_to_code()
         byte = bytearray()
-        for c in codes:
-            hight_byte = (c>>8) & 0xFF
-            low_byte = c & 0xFF
-            byte.append(hight_byte)
-            byte.append(low_byte)
-            self.__size = len(byte)
-            self.__end_time=time.time()
+        buffer = 0 
+        bit_in_buffer = 0 
+        for code in codes:
+            buffer = (buffer<<12)| code
+            bit_in_buffer+=12
+            while bit_in_buffer>=8 :
+                bit_in_buffer-=8
+                b = (buffer>>bit_in_buffer) & 0xFF
+                byte.append(b)
+        if bit_in_buffer>0:
+            b = (buffer << (8-bit_in_buffer)) & 0xFF
+            byte.append(b)
+        self.__size = len(byte)
+        self.__end_time=time.time()
         return byte
-    
+      
+        
     def save(self , file_name):
         """Save byte data as a file"""
         byte_data = self.compress()
@@ -68,13 +85,20 @@ class Decoding:
             self.byte_data = file.read()
 
     def convert_to_code(self):
-        """Convert each byte to a number between zero and 255."""
+        """Convert 12-bit packed bytes back to original codes"""
         codes = []
-        for i in range(0 , len(self.byte_data) , 2):
-            hight = self.byte_data[i]
-            low = self.byte_data[i+1]
-            code = (hight<<8)+low
-            codes.append(code)
+        buffer = 0
+        bits_in_buffer = 0
+        
+        for byte in self.byte_data:
+            buffer = (buffer << 8) | byte
+            bits_in_buffer += 8
+            
+           
+            while bits_in_buffer >= 12:
+                bits_in_buffer -= 12
+                code = (buffer >> bits_in_buffer) & 0xFFF  
+                codes.append(code)
         return codes
     
     def decompress(self):
@@ -83,6 +107,7 @@ class Decoding:
         reversed_tabel = {v: k for k, v in num.partions.items()}
         list_of_code = self.convert_to_code()
         init_code = list_of_code[0]
+        
         init_str = reversed_tabel[init_code]
         string.append(init_str)
         nex_code = max(reversed_tabel.keys()) + 1
@@ -91,6 +116,7 @@ class Decoding:
             if code in reversed_tabel:
                 entry = reversed_tabel[code]
             else:
+                
                 entry = init_str + init_str[0]
 
             string.append(entry)
