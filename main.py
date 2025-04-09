@@ -28,9 +28,8 @@ class Encoding:
                 try:
                     output.append(tabel[char])
                 except:
-                    
                     print(f"{char} is not compressing !")
-                    # num.partions[char]=ord(char)
+                    
                 tabel[substring]=next_code
                 next_code+=1
                 char=c
