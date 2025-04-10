@@ -41,3 +41,12 @@ x.save('a.txt')
 x.compressing_informations()
 ```
 The original file size, the compressed file size and the compressed percentage return to the dictionary.
+
+
+
+## GUI version : 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/itsMajid-dev/compression/refs/heads/main/screenshots/Screenshot%20(668).png" alt="compressing" />
+</p>
+
+> The installation file and images are in this repository. This file is a **beta** version that will eventually compress 1.2 MB text files.
