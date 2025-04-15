@@ -6,6 +6,8 @@ class Encoding:
         self.__size = 0 
         self.__start_time = time.time()
         self.__end_time = 0
+        self.__control=False
+        self.binary = 0
     
     def load(self , file):
         """Reading the data of the file to be compressed"""
@@ -41,14 +43,20 @@ class Encoding:
             byte.append(low_byte)
             self.__size = len(byte)
             self.__end_time=time.time()
+            self.__control = True
+            self.binary = byte
         return byte
     
     def save(self , file_name):
         """Save byte data as a file"""
-        byte_data = self.compress()
-        with open(file_name , 'wb') as file:
-            file.write(byte_data)
-        self.__end_time=time.time()
+        if self.__control:
+            byte_data = self.binary
+            with open(file_name , 'wb') as file:
+                file.write(byte_data)
+            self.__end_time=time.time()
+            return
+        else:
+            raise AttributeError("There is no compressed data to be stored.")
 
     def compressing_informations(self):
         """Return size and compression percentage information"""
