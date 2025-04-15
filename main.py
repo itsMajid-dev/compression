@@ -33,18 +33,25 @@ class Encoding:
         return output
     
     def compress(self):
-        """Convert any number to a number between 0 and 255 then convert to bytes"""
+        """Convert any number to a 12 bit"""
         codes = self.convert_to_code()
         byte = bytearray()
-        for c in codes:
-            hight_byte = (c>>8) & 0xFF
-            low_byte = c & 0xFF
-            byte.append(hight_byte)
-            byte.append(low_byte)
-            self.__size = len(byte)
-            self.__end_time=time.time()
-            self.__control = True
-            self.binary = byte
+        buffer = 0 
+        bit_in_buffer = 0 
+        for code in codes:
+            buffer = (buffer<<12)| code
+            bit_in_buffer+=12
+            while bit_in_buffer>=8 :
+                bit_in_buffer-=8
+                b = (buffer>>bit_in_buffer) & 0xFF
+                byte.append(b)
+        if bit_in_buffer>0:
+            b = (buffer << (8-bit_in_buffer)) & 0xFF
+            byte.append(b)
+        self.__size = len(byte)
+        self.__end_time=time.time()
+        self.__control = True
+        self.binary = byte
         return byte
     
     def save(self , file_name):
@@ -68,6 +75,8 @@ class Encoding:
              'compression_percent':f"{compression_percent} %",
              'Elapsed_time' : f"{round(self.__end_time - self.__start_time ,3) } s"
         }
+
+
 
 class Decoding:
     def __init__(self):
