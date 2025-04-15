@@ -70,6 +70,10 @@ class Encoding:
         }
 
 class Decoding:
+    def __init__(self):
+        self.__control = False
+        self.data = 0
+
     def load(self , compress_file):
         """Reading a compressed file"""
         with open(compress_file , mode='rb') as file:
@@ -100,20 +104,23 @@ class Decoding:
                 entry = reversed_tabel[code]
             else:
                 entry = init_str + init_str[0]
-
             string.append(entry)
-
             reversed_tabel[nex_code] = init_str + entry[0]
             nex_code += 1
             init_str = entry
+            self.data = ''.join(string)
+            self.__control = True
 
         return ''.join(string)
     
     def save(self , file_name):
         """saveing file. """
-        data = self.decompress()
-        with open(file_name , mode='w') as file:
-            file.write(data)
+        if self.__control:
+            data = self.data
+            with open(file_name , mode='w') as file:
+                file.write(data)
+        else:
+            raise AttributeError("There is no data to store!")
             
 
 
