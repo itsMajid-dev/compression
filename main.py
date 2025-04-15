@@ -89,13 +89,17 @@ class Decoding:
             self.byte_data = file.read()
 
     def convert_to_code(self):
-        """Convert each byte to a number between zero and 255."""
+        """Convert 12-bit packed bytes back to original codes"""
         codes = []
-        for i in range(0 , len(self.byte_data) , 2):
-            hight = self.byte_data[i]
-            low = self.byte_data[i+1]
-            code = (hight<<8)+low
-            codes.append(code)
+        buffer = 0
+        bits_in_buffer = 0
+        for byte in self.byte_data:
+            buffer = (buffer << 8) | byte
+            bits_in_buffer += 8
+            while bits_in_buffer >= 12:
+                bits_in_buffer -= 12
+                code = (buffer >> bits_in_buffer) & 0xFFF  
+                codes.append(code)
         return codes
     
     def decompress(self):
