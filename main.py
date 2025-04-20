@@ -35,19 +35,9 @@ class Encoding:
     def compress(self):
         """Convert any number to a 12 bit"""
         codes = self.convert_to_code()
-        byte = bytearray()
-        buffer = 0 
-        bit_in_buffer = 0 
+        byte = b''
         for code in codes:
-            buffer = (buffer<<12)| code
-            bit_in_buffer+=12
-            while bit_in_buffer>=8 :
-                bit_in_buffer-=8
-                b = (buffer>>bit_in_buffer) & 0xFF
-                byte.append(b)
-        if bit_in_buffer>0:
-            b = (buffer << (8-bit_in_buffer)) & 0xFF
-            byte.append(b)
+            byte+=code.to_bytes(2 , 'big')
         self.__size = len(byte)
         self.__end_time=time.time()
         self.__control = True
