@@ -44,6 +44,18 @@ The original file size, the compressed file size and the compressed percentage r
 
 
 
+## File validation:
+
+```python
+x = main.Decoding()
+vld = x.valid("a.txt" , 'ac')
+print(vld)
+```
+Returns True if the compressed file is equal to the original file.
+
+
+
+
 ## GUI version : 
 <p align="center">
   <img src="https://raw.githubusercontent.com/itsMajid-dev/compression/refs/heads/main/screenshots/Screenshot%20(668).png" alt="compressing" />
