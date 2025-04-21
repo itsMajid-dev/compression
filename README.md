@@ -1,8 +1,8 @@
 
 # Project Title
 
-Data compression with Python and the LZW algorithm
-
+Data compression with Python and the LZW algorithm  
+With the help of this code, you can reduce the size of html and xml text files by up to **90%** !
 
 ## About the LZW algorithm : 
 
