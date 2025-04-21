@@ -1,5 +1,6 @@
 import num
 import time 
+import struct 
 
 class Encoding:
     def __init__(self):
@@ -80,16 +81,11 @@ class Decoding:
 
     def convert_to_code(self):
         """Convert 12-bit packed bytes back to original codes"""
-        codes = []
-        buffer = 0
-        bits_in_buffer = 0
-        for byte in self.byte_data:
-            buffer = (buffer << 8) | byte
-            bits_in_buffer += 8
-            while bits_in_buffer >= 12:
-                bits_in_buffer -= 12
-                code = (buffer >> bits_in_buffer) & 0xFFF  
-                codes.append(code)
+        
+        data = self.byte_data
+        num_codes = len(data)//2
+        format_str = f">{num_codes}H"
+        codes = struct.unpack(format_str , data)
         return codes
     
     def decompress(self):
