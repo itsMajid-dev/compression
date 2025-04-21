@@ -38,7 +38,8 @@ x.save('a.txt')
 ## Compression information:
 
 ```python
-x.compressing_informations()
+x = main.Encoding()
+i = x.compressing_informations()
 ```
 The original file size, the compressed file size and the compressed percentage return to the dictionary.
 
@@ -48,8 +49,8 @@ The original file size, the compressed file size and the compressed percentage r
 
 ```python
 x = main.Decoding()
-vld = x.valid("a.txt" , 'ac')
-print(vld)
+v = x.valid("a.txt" , 'ac')
+
 ```
 Returns True if the compressed file is equal to the original file.
 
