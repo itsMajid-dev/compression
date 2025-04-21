@@ -1,6 +1,7 @@
 import num
 import time 
 import struct 
+import filecmp
 
 class Encoding:
     def __init__(self):
@@ -120,6 +121,14 @@ class Decoding:
                 file.write(data)
         else:
             raise AttributeError("There is no data to store!")
+        
+    def valid(self , orginal_file , compressed_file):
+        '''Returns True if the compressed file is equal to the original file   
+        **orginal_file** : equals the path of the original file  
+        **compressed_file** : equals the file that was extracted after compression
+        '''
+        return filecmp.cmp(orginal_file , compressed_file)
+
             
 
 
